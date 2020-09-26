@@ -29,45 +29,19 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.34.0</version>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>2.5.2</version>
                 <configuration>
-                    <images>
+                    <from>
                         <image>
-                            <name>smorenets/task8:${project.version}</name>
-                            <build>
-                                <from>openjdk:15-alpine</from>
-                                <assembly>
-                                    <descriptor>${basedir}/src/main/resources/docker/assembly.xml</descriptor>
-                                </assembly>
-                                <cmd>java -Djava.security.egd=file:/dev/./urandom -jar /maven/demo.jar</cmd>
-                            </build>
-                            <run>
-                                <ports>
-                                    <port>tomcat.port:8080</port>
-                                </ports>
-                            </run>
+                            gcr.io/distroless/java:11
                         </image>
-                    </images>
+                    </from>
+                    <to>
+                        <image>smorenets/task9</image>
+                    </to>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>start</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>stop</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
