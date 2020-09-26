@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4566-4584:4566-4584"
+    environment:
+      - SERVICES=dynamodb,s3,es
+
+      
