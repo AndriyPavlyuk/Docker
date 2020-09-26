@@ -3,11 +3,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>it.discovery</groupId>
-		<artifactId>docker-training</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.3.RELEASE</version>
 	</parent>
 	<artifactId>docker-task6</artifactId>
+
+	<properties>
+		<java.version>1.14</java.version>
+	</properties>
 
 	<build>
 		<finalName>spring-boot-docker</finalName>
@@ -15,6 +19,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<release>14</release>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
