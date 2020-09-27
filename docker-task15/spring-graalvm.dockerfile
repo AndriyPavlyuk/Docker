@@ -29,7 +29,6 @@ RUN export LIBPATH=`find BOOT-INF/lib | tr '\n' ':'` && \
        -Dspring.spel.ignore=true \
        -cp $CP it.discovery.MainApplication
 
-CMD /bin/sh
 FROM ubuntu
 # TODO use alpine instead
 
