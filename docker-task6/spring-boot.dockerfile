@@ -1,11 +1,10 @@
+# syntax=docker/dockerfile:experimental
 FROM maven as build
 
 COPY pom.xml /opt/pom.xml
-WORKDIR /opt
-
-RUN mvn dependency:resolve
 COPY src /opt/src
-RUN mvn install spring-boot:repackage
+WORKDIR /opt
+RUN --mount=type=cache,target=/root/.m2 mvn install spring-boot:repackage
 
 FROM openjdk:15-alpine
 COPY --from=build /opt/target/spring-boot-docker.jar /app.jar
