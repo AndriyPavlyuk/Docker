@@ -11,9 +11,9 @@ services:
       - MYSQL_PASSWORD=discovery
       - MYSQL_ROOT_PASSWORD=root
     healthcheck:
-      test: ["CMD", "mysql", "-uroot", "-p${MYSQL_ROOT_PASSWORD}", "-e 'SHOW DATABASES;'"]
+      test: mysql -uroot -p$$MYSQL_ROOT_PASSWORD -e "SHOW DATABASES;"
       interval: 1m
-      retries: 2
+      retries: 1
       timeout: 10s
     networks:
        - mysql-network
