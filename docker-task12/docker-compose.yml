@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  client:
+    build:
+      context: client
+      dockerfile: client.dockerfile
+    depends_on:
+      - server
+    ports:
+    - "8000:8000"
+    environment:
+      - app.server.url=http://server:9000
+    networks:
+      - network1
+  server:
+    build:
+      context: server
+      dockerfile: server.dockerfile
+    expose:
+      - 9000
+    ports:
+    - "9000:9000"
+    networks:
+      - network1
+networks:
+  network1:
+    driver: bridge
