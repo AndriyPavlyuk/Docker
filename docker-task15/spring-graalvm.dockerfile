@@ -1,12 +1,17 @@
-FROM maven as base
+# syntax=docker/dockerfile:experimental
+#FROM maven as base
+#
+#COPY pom.xml /opt/pom.xml
+#COPY src /opt/src
+#WORKDIR /opt
+#RUN --mount=type=cache,target=/root/.m2 mvn install spring-boot:repackage
 
-#Copy project and build it using Maven
-
-FROM oracle/graalvm-ce:20.1.0-java11
+FROM oracle/graalvm-ce:20.1.0-java11 as graalvm
 
 RUN gu install native-image
 
-COPY --from=base /opt/target/docker-task15-1.0.jar /opt/app.jar
+#COPY --from=base /opt/target/docker-task15-1.0.jar /opt/app.jar
+COPY target/docker-task15-1.0.jar /opt/app.jar
 
 WORKDIR /opt
 
@@ -23,5 +28,11 @@ RUN export LIBPATH=`find BOOT-INF/lib | tr '\n' ':'` && \
        -Dspring.xml.ignore=true \
        -Dspring.spel.ignore=true \
        -cp $CP it.discovery.MainApplication
+
+CMD /bin/sh
+FROM ubuntu
+# TODO use alpine instead
+
+COPY --from=graalvm /spring-graalvm /spring-graalvm
 
 CMD ./spring-graalvm

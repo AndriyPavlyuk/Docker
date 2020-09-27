@@ -14,6 +14,7 @@ COPY --from=jdk /sources/HelloWorld.class /
 RUN native-image HelloWorld
 
 FROM ubuntu
+# TODO use alpine instead
 
 COPY --from=graalvm /helloworld /helloworld
 
