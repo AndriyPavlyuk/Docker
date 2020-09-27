@@ -3,9 +3,31 @@ version: '3.7'
 services:
   mysql:
     build:
-      context: .
-      dockerfile: mysql/mysql.dockerfile 
+      context: mysql
+      dockerfile: mysql.dockerfile
+    environment:
+      - MYSQL_DATABASE=discovery
+      - MYSQL_USER=discovery
+      - MYSQL_PASSWORD=discovery
+      - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: ["CMD", "mysql", "-uroot", "-p${MYSQL_ROOT_PASSWORD}", "-e 'HOW DATABASES;'"]
+      interval: 1m
+      retries: 2
+      timeout: 10s
+    networks:
+       - mysql-network
   jvm:
     build:
-      context: .
-      dockerfile: jvm/jvm.dockerfile 
+      context: jvm
+      dockerfile: jvm.dockerfile
+    depends_on:
+      - mysql
+    stdin_open: true
+    tty: true
+    command: /bin/sh -c "sleep 5s && java -classpath .:/sources/mysql-connector-java-8.0.19.jar MainStarter"
+    networks:
+        - mysql-network
+networks:
+  mysql-network:
+    driver: bridge
