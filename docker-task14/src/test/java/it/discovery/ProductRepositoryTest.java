@@ -1,5 +1,6 @@
 package it.discovery;
 
+import it.discovery.model.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
@@ -16,7 +17,7 @@ import it.discovery.repository.ProductRepository;
 @Testcontainers
 @AutoConfigureDataJpa
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
-public class ProductControllerTest {
+public class ProductRepositoryTest {
 
 	@Container
 	static MySQLContainer mysql = new MySQLContainer<>("mysql:8")
@@ -34,6 +35,10 @@ public class ProductControllerTest {
 
 	@Test
 	void saveProduct_success() {
+		Product product = new Product();
+		product.setName("Training");
+
+		productRepository.save(product);
 
 	}
 }
